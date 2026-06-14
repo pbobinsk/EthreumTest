@@ -62,3 +62,12 @@ Ten dokument opisuje pełny proces tworzenia, wdrażania i interakcji ze Smart K
 6. *Pieniądze wróciły do nas dzięki instrukcji `msg.sender.call{value: ...}("")`. Wymusiło to na jądrze systemu (EVM) uaktualnienie tablicy sald na tysiącach komputerów, stąd musieliśmy zapłacić Transaction Fee (Opłatę Transakcyjną).*
 
 ---
+---
+
+`Sejf.sol`
+
+hasło (private?)
+
+```
+await web3.eth.getStorageAt("0xf8f386Bdd10a740a8650a7a3F0C578Ad08Ea6b42", 1)
+```

@@ -1,0 +1,113 @@
+{
+	"compiler": {
+		"version": "0.8.34+commit.80d5c536"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_haslo",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "adresKranu",
+						"type": "address"
+					}
+				],
+				"name": "napadNaKran",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "sprawdzSaldo",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "podaneHaslo",
+						"type": "bytes32"
+					}
+				],
+				"name": "wlamanie",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "wlasciciel",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/workshop/Vault.sol": "Sejf"
+		},
+		"evmVersion": "osaka",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/workshop/Vault.sol": {
+			"keccak256": "0x2f747a2c0a192538bd52f8762654f1fefb236f96c62a4d6dff05fbf381c7d73b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://86645eb1ac2e70d52bb1ec6d7070f3a51564dd67970a9294e8b99f29c9f970c6",
+				"dweb:/ipfs/QmNM7PHck7kobYjLbrDfaw2WSgFbadsTPrR4FbybhbPMmU"
+			]
+		}
+	},
+	"version": 1
+}

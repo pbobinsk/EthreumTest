@@ -61,5 +61,13 @@
         "file": "contracts/workshop/Faucet.sol"
       }
     }
+  },
+  "contracts/workshop/Vault.sol": {
+    "__sources__": {
+      "contracts/workshop/Vault.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\n// 1. Definiujemy Interfejs: \"Mówimy\" Sejfowi, jak wygląda funkcja w Kraniku\r\ninterface IKranik {\r\n    function withdraw(uint256 withdraw_amount) external;\r\n}\r\n\r\ncontract Sejf {\r\n    address public wlasciciel;\r\n    bytes32 private tajneHaslo;\r\n\r\n    // 2. NOWOŚĆ: Pozwalamy Sejfowi przyjmować przelewy (np. z Kranika!)\r\n    receive() external payable {}\r\n\r\n    constructor(bytes32 _haslo) payable {\r\n        wlasciciel = msg.sender;\r\n        tajneHaslo = _haslo;\r\n    }\r\n\r\n    // 3. NOWOŚĆ: Funkcja zlecająca Sejfowi napad na Kranik\r\n    function napadNaKran(address adresKranu) public {\r\n        // Tworzymy \"uchwyt\" do Kranika\r\n        IKranik kran = IKranik(adresKranu);\r\n        \r\n        // Sejf sam z siebie dzwoni do Kranika i prosi o 0.05 ETH.\r\n        // Wewnątrz Kranika, 'msg.sender' to będzie adres NASZEGO SEJFU!\r\n        kran.withdraw(0.015 ether);\r\n    }\r\n\r\n    function wlamanie(bytes32 podaneHaslo) public {\r\n        require(podaneHaslo == tajneHaslo, \"Zle haslo!\");\r\n        uint256 calyMajatek = address(this).balance;\r\n        (bool sukces, ) = msg.sender.call{value: calyMajatek}(\"\");\r\n        require(sukces, \"Przelew nie udany\");\r\n    }\r\n\r\n    function sprawdzSaldo() public view returns (uint256) {\r\n        return address(this).balance;\r\n    }\r\n}",
+        "file": "contracts/workshop/Vault.sol"
+      }
+    }
   }
 }
