@@ -69,5 +69,13 @@
         "file": "contracts/workshop/Vault.sol"
       }
     }
+  },
+  "contracts/tokens/LLToken.sol": {
+    "__sources__": {
+      "contracts/tokens/LLToken.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract LowLevelToken {\r\n    string public name = \"Nasza Moneta\";\r\n    string public symbol = \"NSM\";\r\n    \r\n    // 1. Dodajemy informację o liczbie miejsc po przecinku (MetaMask tego szuka)\r\n    uint8 public decimals = 0; \r\n    \r\n    // 2. Zmieniamy nazwę z 'balances' na 'balanceOf'\r\n    // Kompilator Solidity automatycznie stworzy funkcję: balanceOf(address)\r\n    mapping(address => uint256) public balanceOf; \r\n    \r\n    uint256 public totalSupply;\r\n    address public owner;\r\n\r\n    constructor(uint256 initialSupply) {\r\n        owner = msg.sender;\r\n        balanceOf[msg.sender] = initialSupply;\r\n        totalSupply = initialSupply;\r\n    }\r\n\r\n    function transfer(address to, uint256 amount) public {\r\n        require(balanceOf[msg.sender] >= amount, \"Brak srodkow\");\r\n        balanceOf[msg.sender] -= amount;\r\n        balanceOf[to] += amount;\r\n    }\r\n}",
+        "file": "contracts/tokens/LLToken.sol"
+      }
+    }
   }
 }
