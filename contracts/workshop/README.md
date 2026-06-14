@@ -64,10 +64,114 @@ Ten dokument opisuje pełny proces tworzenia, wdrażania i interakcji ze Smart K
 ---
 ---
 
-`Sejf.sol`
+# Iluzja prywatności, czyli jak czytać surowy dysk EVM.
 
-hasło (private?)
+### Koncepcja 
+> *"W językach takich jak Java, C++ czy C#, jeśli oznaczycie zmienną jako `private`, obiekt jest chroniony. Inne klasy nie mają do niej dostępu. Kompilator pilnuje hermetyzacji.
+> A jak to działa w blockchainie? Napiszemy teraz Sejf. Zamkniemy w nim testowe Ethery i zabezpieczymy je zmienną `private`. Przycisk odczytu zniknie z interfejsu. Ale czy na poziomie fizycznego dysku węzłów (Storage) cokolwiek jest prywatne? Za chwilę udowodnimy wam, że dla inżyniera niskopoziomowego słówko `private` to tylko sugestia."*
 
+---
+
+### Krok 1: Podatny kod (plik `Sejf.sol`)
+
+
+---
+
+### Krok 2: Wdrożenie Sejfu (Zasilenie z ukrytym hasłem)
+
+1. Skompiluj `Sejf.sol`.
+2. Przejdź do zakładki *Deploy*. Upewnij się, że masz **Injected Provider - MetaMask**.
+3. **Ważne przygotowanie do Deployu:**
+   * Obok przycisku Deploy rozwiń strzałkę w dół, aby zobaczyć pole na nasze hasło (`_haslo`).
+   * EVM wymaga 32 bajtów (bytes32). Wpiszmy "haslo123" dopełnione zerami:
+     `0x6861736c6f313233000000000000000000000000000000000000000000000000`
+   * Ponad przyciskiem Deploy, w polu **VALUE**, wpisz np. `0.01` i zmień na **Ether**. (Chcemy, żeby Sejf od początku miał w sobie nagrodę dla hakera).
+4. Kliknij **Transact** i potwierdź w MetaMasku. Czekamy 12 sekund na wykopanie bloku.
+
+---
+
+### Krok 3: Analiza iluzji (Co widać z zewnątrz?)
+
+Kiedy kontrakt się wdroży, rozwiń go w lewym dolnym rogu. Zobaczysz tylko trzy przyciski:
+*   `wlasciciel` (niebieski)
+*   `sprawdzSaldo` (niebieski - pokaże 10000000000000000 Wei, czyli 0.01 ETH)
+*   `wlamanie` (pomarańczowy)
+
+> *"Gdzie jest przycisk do odczytania zmiennej `tajneHaslo`? Nie ma go! Kompilator usunął interfejs dostępu, bo użyliśmy słowa `private`. Normalny użytkownik nie ma szans zgadnąć ciągu 64 znaków hexadecymalnych. Sejf wydaje się bezpieczny."*
+
+---
+
+### Krok 4: HAKOWANIE – Czytamy surowy twardy dysk (Storage)!
+
+Teraz wchodzimy na poziom sprzętowy. Ominiemy Remix, ominiemy język Solidity i wyślemy bezpośrednie zapytanie (RPC Call) do węzła Ethereum, aby odczytał surową pamięć z dysku twardego.
+
+1. **Skopiuj adres** swojego wdrożonego Sejfu.
+2. Na samym dole środowiska Remix masz ciemną konsolę (tam gdzie są logi transakcji). Na samym dole tej konsoli znajduje się pasek, w którym możesz wpisywać komendy (znak zachęty `>`). To jest konsola JavaScript z wbudowanym dostępem do sieci (biblioteka `web3`).
+3. Wpisz w tę konsolę następującą komendę (podmieniając adres na ten skopiowany):
+
+```javascript
+await web3.eth.getStorageAt("WKLEJ_TUTAJ_ADRES_SEJFU", 1)
 ```
-await web3.eth.getStorageAt("0xf8f386Bdd10a740a8650a7a3F0C578Ad08Ea6b42", 1)
-```
+
+**Dlaczego wpisujemy "1"? :**
+> *"EVM zapisuje zmienne globalne w tzw. Slotach Pamięci (każdy ma 32 bajty). Slot `0` to pierwsza zmienna w kodzie (`wlasciciel`). Nasze `tajneHaslo` to druga zmienna w kodzie, więc kompilator umieścił ją w Slocie nr `1`. Funkcja `getStorageAt` nakazuje węzłowi ominąć wszystkie zabezpieczenia języka C/Solidity i po prostu zrzucić na ekran fizyczną zawartość danego klastra pamięci."*
+
+4. Wciśnij **Enter**.
+
+### Krok 5: Wielki Finał
+W konsoli Remix jako odpowiedź natychmiast wyświetli się ciąg:
+`"0x6861736c6f313233000000000000000000000000000000000000000000000000"`
+
+Właśnie odczytaliśmy "prywatne" hasło z twardego dysku blockchaina!
+Teraz po prostu skopiuj ten ciąg znaków, wklej go do pomarańczowego przycisku **`wlamanie`** i go kliknij.
+Podpisz transakcję w MetaMasku. 
+
+Po wykopaniu bloku kliknij **`sprawdzSaldo`**. Wynik? `0`. Twój Sejf został opróżniony, a 0.01 ETH bezpiecznie wróciło do Twojego portfela!
+
+---
+---
+
+**Composability (Kompozycyjność)**, nazywanej potocznie "Finansowymi Klockami Lego" (Money Legos). 
+
+Skoro oba kontrakty (Kranik i Sejf) żyją w tej samej maszynie EVM, mogą ze sobą rozmawiać. Ale żeby Sejf pobrał pieniądze z Kranika, musimy rozwiązać **dwa problemy niskopoziomowe**.
+
+### Problem 1: Kto jest nadawcą? (`msg.sender`)
+Nasz Kranik ma wpisane: `msg.sender.call{value: ...}`. Wysyła pieniądze temu, kto pociągnął za wajchę. 
+Nie możemy więc z naszego portfela (MetaMaska) powiedzieć Kranikowi: *"Przelej Sejfowi"*. **To Sejf musi sam zadzwonić do Kranika!** Dla Kranika to Sejf będzie wtedy `msg.sender`em.
+
+### Problem 2: Tarcza ochronna Sejfu
+Jeśli zmusimy Sejf, by zadzwonił do Kranika, Kranik wyśle mu Ether. Ale nasz obecny Sejf **nie ma funkcji `receive() external payable`**! EVM automatycznie odbije ten przelew (Opcode `REVERT`), a transakcja upadnie. 
+
+---
+
+### Rozwiązanie: Robimy z Sejfu autonomicznego bota!
+
+Plik `Sejf.sol`.
+
+---
+
+### Jak przeprowadzić ten atak na żywo? (Scenariusz)
+
+**Krok 1: Wdrażamy Sejf**
+1. Skompiluj nowy `Sejf.sol`.
+2. Wdróż go z pustym balansem początkowym (VALUE = 0), podając w konstruktorze nasze hasło:
+   `0x6861736c6f313233000000000000000000000000000000000000000000000000`
+3. Kliknij **Deploy** i podpisz w MetaMasku.
+
+**Krok 2: Sprawdzamy początkowy stan**
+1. W Remixie rozwiń wdrożony Sejf.
+2. Kliknij `sprawdzSaldo`. **Wynik to 0.** Nasz Sejf jest pusty.
+
+**Krok 3: Autonomiczna akcja maszyny (Sejf idzie do Kranu)**
+1. Wklej skopiowany wcześniej **adres Kranika** w pole obok pomarańczowego przycisku **`napadNaKran`**.
+2. Kliknij **`napadNaKran`**. MetaMask poprosi o podpis. (Zwróć uwagę, że płacisz tylko za Gas, nie wysyłasz żadnego swojego Etheru!).
+3. Poczekaj na wykopanie bloku.
+
+**Krok 4: Weryfikacja**
+1. Kliknij ponownie **`sprawdzSaldo`** w Sejfie.
+2. Wynik: **`50000000000000000`** (0.05 ETH w Wei). 
+3. *Sukces!* Sejf skontaktował się z Kranem i wessał jego zasoby do siebie.
+4. Teraz możesz użyć sztuczki z odczytem z twardego dysku (poprzedni warsztat), żeby zdobyć hasło i ukraść to 0.05 ETH z Sejfu do własnego MetaMaska!
+
+---
+
