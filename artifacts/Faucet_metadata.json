@@ -6,6 +6,44 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Withdrawal",
+				"type": "event"
+			},
+			{
 				"inputs": [],
 				"name": "getBalance",
 				"outputs": [
@@ -19,8 +57,14 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "withdrawOneEther",
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "withdraw_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -43,7 +87,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/Faucet.sol": "Faucet"
+			"contracts/workshop/Faucet.sol": "Faucet"
 		},
 		"evmVersion": "osaka",
 		"libraries": {},
@@ -57,12 +101,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/Faucet.sol": {
-			"keccak256": "0xc7e4cb95006e5b22ca21293f18c8482aa3645d4374a518ae6a2394244e086742",
+		"contracts/workshop/Faucet.sol": {
+			"keccak256": "0x546ece0afc7b61e31f6665dfc146c762b8c83e7103ec306f87cdcbfff595cebb",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ce9f12bc28fcbc2053c2fec01e2b2966f729d98084cf54b27d647d58160e8913",
-				"dweb:/ipfs/QmPukGLBriXQxT8FGyoYYAGmLo1Wq5gjqqHAycng8iwi4m"
+				"bzz-raw://7c74d141bd8ea431c5f10ca2a182a4244779dfeb9ad6888abc107a02c0f7c003",
+				"dweb:/ipfs/QmeE7pLN2UkapUKmefiHXEraNXyeU77eEhqJhrFTXEXHYX"
 			]
 		}
 	},

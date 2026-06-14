@@ -53,5 +53,13 @@
         "file": "contracts/Faucet.sol"
       }
     }
+  },
+  "contracts/workshop/Faucet.sol": {
+    "__sources__": {
+      "contracts/workshop/Faucet.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\ncontract Faucet {\r\n    event Withdrawal(address indexed to, uint256 amount);\r\n    event Deposit(address indexed from, uint256 amount);\r\n\r\n    // Funkcja odbierająca wpłaty\r\n    receive() external payable {\r\n        emit Deposit(msg.sender, msg.value);\r\n    }\r\n\r\n    // Funkcja wypłacająca\r\n    function withdraw(uint256 withdraw_amount) public {\r\n        require(withdraw_amount <= 0.1 ether, \"Max 0.1 ETH\");\r\n        require(address(this).balance >= withdraw_amount, \"Pusty kran!\");\r\n\r\n        (bool success, ) = msg.sender.call{value: withdraw_amount}(\"\");\r\n        require(success, \"Blad przelewu!\");\r\n\r\n        emit Withdrawal(msg.sender, withdraw_amount);\r\n    }\r\n\r\n    // Sprawdzanie salda\r\n    function getBalance() public view returns (uint256) {\r\n        return address(this).balance;\r\n    }\r\n}",
+        "file": "contracts/workshop/Faucet.sol"
+      }
+    }
   }
 }
