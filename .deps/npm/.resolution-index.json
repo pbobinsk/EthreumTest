@@ -54,11 +54,11 @@
       }
     }
   },
-  "contracts/workshop/Faucet.sol": {
+  "contracts/tokens/LLToken.sol": {
     "__sources__": {
-      "contracts/workshop/Faucet.sol": {
-        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\ncontract Faucet {\r\n    event Withdrawal(address indexed to, uint256 amount);\r\n    event Deposit(address indexed from, uint256 amount);\r\n\r\n    // Funkcja odbierająca wpłaty\r\n    receive() external payable {\r\n        emit Deposit(msg.sender, msg.value);\r\n    }\r\n\r\n    // Funkcja wypłacająca\r\n    function withdraw(uint256 withdraw_amount) public {\r\n        require(withdraw_amount <= 0.1 ether, \"Max 0.1 ETH\");\r\n        require(address(this).balance >= withdraw_amount, \"Pusty kran!\");\r\n\r\n        (bool success, ) = msg.sender.call{value: withdraw_amount}(\"\");\r\n        require(success, \"Blad przelewu!\");\r\n\r\n        emit Withdrawal(msg.sender, withdraw_amount);\r\n    }\r\n\r\n    // Sprawdzanie salda\r\n    function getBalance() public view returns (uint256) {\r\n        return address(this).balance;\r\n    }\r\n}",
-        "file": "contracts/workshop/Faucet.sol"
+      "contracts/tokens/LLToken.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract LowLevelToken {\r\n    string public name = \"Nasza Moneta\";\r\n    string public symbol = \"NSM\";\r\n    \r\n    // 1. Dodajemy informację o liczbie miejsc po przecinku (MetaMask tego szuka)\r\n    uint8 public decimals = 0; \r\n    \r\n    // 2. Zmieniamy nazwę z 'balances' na 'balanceOf'\r\n    // Kompilator Solidity automatycznie stworzy funkcję: balanceOf(address)\r\n    mapping(address => uint256) public balanceOf; \r\n    \r\n    uint256 public totalSupply;\r\n    address public owner;\r\n\r\n    constructor(uint256 initialSupply) {\r\n        owner = msg.sender;\r\n        balanceOf[msg.sender] = initialSupply;\r\n        totalSupply = initialSupply;\r\n    }\r\n\r\n    function transfer(address to, uint256 amount) public {\r\n        require(balanceOf[msg.sender] >= amount, \"Brak srodkow\");\r\n        balanceOf[msg.sender] -= amount;\r\n        balanceOf[to] += amount;\r\n    }\r\n}",
+        "file": "contracts/tokens/LLToken.sol"
       }
     }
   },
@@ -70,11 +70,11 @@
       }
     }
   },
-  "contracts/tokens/LLToken.sol": {
+  "contracts/workshop/Faucet.sol": {
     "__sources__": {
-      "contracts/tokens/LLToken.sol": {
-        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract LowLevelToken {\r\n    string public name = \"Nasza Moneta\";\r\n    string public symbol = \"NSM\";\r\n    \r\n    // 1. Dodajemy informację o liczbie miejsc po przecinku (MetaMask tego szuka)\r\n    uint8 public decimals = 0; \r\n    \r\n    // 2. Zmieniamy nazwę z 'balances' na 'balanceOf'\r\n    // Kompilator Solidity automatycznie stworzy funkcję: balanceOf(address)\r\n    mapping(address => uint256) public balanceOf; \r\n    \r\n    uint256 public totalSupply;\r\n    address public owner;\r\n\r\n    constructor(uint256 initialSupply) {\r\n        owner = msg.sender;\r\n        balanceOf[msg.sender] = initialSupply;\r\n        totalSupply = initialSupply;\r\n    }\r\n\r\n    function transfer(address to, uint256 amount) public {\r\n        require(balanceOf[msg.sender] >= amount, \"Brak srodkow\");\r\n        balanceOf[msg.sender] -= amount;\r\n        balanceOf[to] += amount;\r\n    }\r\n}",
-        "file": "contracts/tokens/LLToken.sol"
+      "contracts/workshop/Faucet.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\ncontract Faucet {\r\n    event Withdrawal(address indexed to, uint256 amount);\r\n    event Deposit(address indexed from, uint256 amount);\r\n\r\n    // Funkcja odbierająca wpłaty\r\n    receive() external payable {\r\n        emit Deposit(msg.sender, msg.value);\r\n    }\r\n\r\n    // Funkcja wypłacająca\r\n    function withdraw(uint256 withdraw_amount) public {\r\n        require(withdraw_amount <= 0.1 ether, \"Max 0.1 ETH\");\r\n        require(address(this).balance >= withdraw_amount, \"Pusty kran!\");\r\n\r\n        (bool success, ) = msg.sender.call{value: withdraw_amount}(\"\");\r\n        require(success, \"Blad przelewu!\");\r\n\r\n        emit Withdrawal(msg.sender, withdraw_amount);\r\n    }\r\n\r\n    // Sprawdzanie salda\r\n    function getBalance() public view returns (uint256) {\r\n        return address(this).balance;\r\n    }\r\n}",
+        "file": "contracts/workshop/Faucet.sol"
       }
     }
   }
