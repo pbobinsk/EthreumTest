@@ -1,14 +1,6 @@
-Świetna wiadomość! Gratulacje – pomyślna weryfikacja kodu na Etherscanie to duży kamień milowy. To, że portfel nadal nie pokazuje ikony, nie ma już znaczenia, ponieważ **masz teraz pełne, profesjonalne środowisko deweloperskie bezpośrednio w przeglądarce**. 
-
-Dla studentów interakcja z kontraktem przez Etherscan jest niesamowicie pouczająca, ponieważ zmusza ich do myślenia o tym, co jest darmowym odczytem, a co płatnym zapisem na blockchainie.
-
-Oto propozycja kolejnego, bardzo interaktywnego kroku warsztatów: **„Symulacja transakcji DeFi (Approve & TransferFrom) przy użyciu Etherscana”**.
-
 ---
 
 ### Część 1: Teoria – Czym różni się „Read” od „Write” na Etherscanie?
-
-Przed przystąpieniem do klikania, warto wyjaśnić studentom fundamentalną różnicę architektoniczną w EVM:
 
 | Cecha | Read Contract (Odczyt) | Write Contract (Zapis) |
 | :--- | :--- | :--- |
@@ -21,7 +13,7 @@ Przed przystąpieniem do klikania, warto wyjaśnić studentom fundamentalną ró
 ### Część 2: Co dokładnie możemy robić w obu zakładkach?
 
 #### Zakładka „Read Contract” (Bezpieczne i darmowe odpytywanie)
-Tutaj studenci mogą badać stan kontraktu bez obaw, że cokolwiek zepsują lub stracą środki:
+Możemy badać stan kontraktu bez obaw, że cokolwiek zepsujemy lub stracimy środki:
 1.  **`name` / `symbol` / `decimals` / `totalSupply`** – podstawowe metadane naszego tokenu.
 2.  **`balanceOf(address)`** – studenci mogą wkleić Twój adres, swój adres lub dowolny inny i sprawdzić aktualne saldo (pokaże się wartość z 18 zerami na końcu, np. `99999999999999999975`).
 3.  **`allowance(owner, spender)`** – sprawdzenie, jaki limit wydatków właściciel (`owner`) przydzielił danemu pośrednikowi (`spender`). Na początku pokaże oczywiście `0`.
@@ -36,7 +28,7 @@ Aby tu działać, należy najpierw kliknąć czerwony przycisk **"Connect to Web
 
 ### Część 3: Praktyczny Scenariusz Pokazu – „Gra pozorów (DeFi)”
 
-Zaproponuj studentom przeprowadzenie symulacji, w której **Konto A** (Ty) daje upoważnienie **Kontu B** (np. studentowi), a ten „pobiera” od Ciebie opłatę za usługę. 
+Symulacja, w której **Konto A** daje upoważnienie **Kontu B**, a ton „pobiera” od A  za usługę. 
 
 *Wskazówka: Zawsze pamiętajcie, aby kwoty wpisywać z 18 zerami na końcu (np. 10 tokenów to `10000000000000000000`).*
 
@@ -75,5 +67,31 @@ W zakładce **Read Contract**:
 
 ---
 
-### Dlaczego to jest idealny krok warsztatu?
-Studenci często mają problem ze zrozumieniem, dlaczego giełdy DEX (jak Uniswap) wymagają najpierw transakcji **Approve**, a dopiero potem robią właściwy **Swap**. Dzięki temu pokazowi na żywo na Etherscanie zobaczą "bebechy" tego procesu bez pisania ani jednej linijki dodatkowego kodu front-endowego. Wszystko dzieje się na surowym protokole ERC-20.
+### To samo z Etherscana w Remix?
+
+W panelu **Deployed Contracts** w Remixie przyciski mają kolory, które reprezentują dokładnie to samo rozróżnienie:
+
+*   **Niebieskie przyciski** (np. `balanceOf`, `allowance`, `symbol`, `decimals`) = **Read Contract**.  
+    Są darmowe, nie wymagają podpisywania transakcji w MetaMasku. Wynik wyświetla się natychmiast po kliknięciu tuż pod przyciskiem.
+*   **Pomarańczowe przyciski** (np. `transfer`, `approve`, `transferFrom`) = **Write Contract**.  
+    Zmieniają stan blockchaina, więc ich kliknięcie wywoła okienko MetaMask z prośbą o podpisanie transakcji i zapłacenie za gaz.
+
+---
+
+### Scenariusz w Remix (Krok po kroku na Sepolii)
+
+Scenariusz wygląda identycznie, tylko zamiast kart Etherscana używasz panelu Remix:
+
+1.  **Konto A (Właściciel) daje uprawnienia:**
+    *   W MetaMasku masz wybrane **Konto A**.
+    *   W sekcji kontraktu w Remixie znajdujesz pomarańczowy przycisk **`approve`**.
+    *   Rozwijasz go, wpisujesz adres Konta B w pole `spender` oraz kwotę z 18 zerami w pole `amount`. Klikasz przycisk `transact` i podpisujesz w MetaMask.
+2.  **Weryfikacja limitu (Każdy):**
+    *   W Remixie klikasz niebieski przycisk **`allowance`**, wpisując adres Konta A i Konta B. Wynik pojawia się natychmiast pod przyciskiem bez udziału MetaMaska.
+3.  **Konto B (Pośrednik) pobiera środki:**
+    *   **Przełączasz konto w MetaMasku na Konto B**.
+    *   W Remixie upewniasz się, że w polu *ACCOUNT* widnieje adres Konta B.
+    *   Rozwijasz pomarańczowy przycisk **`transferFrom`**.
+    *   Wpisujesz: `from` (Konto A), `to` (Konto B), `amount` (kwota).
+    *   Klikasz `transact` i podpisujesz transakcję jako Konto B (płacąc jego gazem).
+
