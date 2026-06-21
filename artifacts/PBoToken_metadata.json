@@ -483,11 +483,11 @@
 			]
 		},
 		"contracts/tokens/PBoToken.sol": {
-			"keccak256": "0x4c1e68a2b831f520a7ff03cc303ec393a7c0415cf7074164002d977c25b5735e",
+			"keccak256": "0xb4aa22c8306709b3a7ce1cff821057ae16f60d25f2a00c90446983ba890e5b61",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e9006bc9bf91a117a90a7358d2a84286fee0adba359cde9338ce8eafa93421b2",
-				"dweb:/ipfs/QmYTEdJ2XhqEGCAiHmzg3s7A4moEA6sQpsvSp1C7SHthk5"
+				"bzz-raw://c150e7ed3beb8930c40861e1a74feb03349629cbbbcda4056711a08678c67b45",
+				"dweb:/ipfs/QmQ2MrqheMybJKPK14q6j9K7J7zJQJYj4bVxdSEvEpEWkL"
 			]
 		}
 	},

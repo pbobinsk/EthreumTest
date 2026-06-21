@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract PBoToken is ERC20 {
     // W konstruktorze definiujemy nazwę tokenu ("Moje Tokeny") oraz symbol ("MTK")
-    constructor(uint256 initialSupply) ERC20("Moje Tokeny", "MTK") {
+    constructor(uint256 initialSupply) ERC20("Token PBo", "PBO") {
         
         // Funkcja _mint tworzy tokeny i przypisuje je do nadawcy (twórcy kontraktu).
         // Standardowy ERC-20 od OpenZeppelin ma domyślnie ustawione 18 decimals.
