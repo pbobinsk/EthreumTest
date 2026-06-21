@@ -1,0 +1,53 @@
+{
+	"compiler": {
+		"version": "0.8.34+commit.80d5c536"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "swapAtInefficientRate",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/flashloan/EthFlashBorrower.sol": "IEthMockDEX"
+		},
+		"evmVersion": "osaka",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/flashloan/EthFlashBorrower.sol": {
+			"keccak256": "0x1667184d6b46b7bdc9209f9018df1f81fda0bacf33dc2e9c7860e1563c67252e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://813d70e0635020a1fae363758bc1ca0b18dcde11b9a8c781a6c5a089795f60f5",
+				"dweb:/ipfs/QmRNdDuvcpwRSm3vnFA2M6tGyy1NTQqwcXXqkCMHqQjaR3"
+			]
+		}
+	},
+	"version": 1
+}
