@@ -9,3 +9,6 @@ Token NSM, można dodać do MM, ale go nie widać.
 Higl Level z biblioteki
 0x94eC904589921A1122dF1adE3E0F95927420b8C8
 
+NFT
+0x3f8964d148Abb25EAf4B00704Eb5C486502440ae
+
