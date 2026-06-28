@@ -1,0 +1,60 @@
+{
+	"compiler": {
+		"version": "0.8.34+commit.80d5c536"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/DAOattack/Attacker.sol": "IVictimDAO"
+		},
+		"evmVersion": "osaka",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/DAOattack/Attacker.sol": {
+			"keccak256": "0x8f9b052e881df46bd5602b0c62024ef3d811863df34856071b9733eca3b286e4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://33a10ef8251f1b0b708cd381356a62c8325888a9c6c9477064c03d125e299da9",
+				"dweb:/ipfs/QmWsq1sETi7nq9HuZXTpTag6vafEtK7hFhRwj3vFYMW3hE"
+			]
+		}
+	},
+	"version": 1
+}
